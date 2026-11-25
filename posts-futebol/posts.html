@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Posts Várzea</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@500;700;900&family=Permanent+Marker&display=swap">
+<style>
+/* Terrão de várzea: chão de terra, linha de cal, letreiro pintado à mão. Cada post = 1080x1080 */
+:root{
+  --terra:#B4532A; --terra-esc:#7E3418; --cal:#F6F0E4; --grama:#2E6A3C;
+  --tinta:#1B1916; --amarelo:#F2C230; --vermelho:#D6362B;
+  --f-titulo:"Anton","Impact",sans-serif;
+  --f-texto:"Archivo","Arial",sans-serif;
+  --f-giz:"Permanent Marker","Comic Sans MS",cursive;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#444;display:flex;flex-direction:column;align-items:center;gap:40px;padding:40px}
+.post{width:1080px;height:1080px;position:relative;overflow:hidden;font-family:var(--f-texto);color:var(--tinta)}
+
+/* fundo de terra com granulado */
+.terrao{background:
+  radial-gradient(circle at 20% 30%,rgba(255,255,255,.06) 0 2px,transparent 3px) 0 0/37px 41px,
+  radial-gradient(circle at 70% 60%,rgba(0,0,0,.10) 0 2px,transparent 3px) 0 0/29px 31px,
+  radial-gradient(ellipse at 50% 40%,#C7653A,var(--terra) 55%,var(--terra-esc));color:var(--cal)}
+.muro{background:var(--cal)}
+.grama{background:repeating-linear-gradient(90deg,#2E6A3C 0 108px,#357544 108px 216px)}
+
+.selo{position:absolute;bottom:40px;right:48px;font-family:var(--f-giz);font-size:30px;opacity:.85}
+.tag{display:inline-block;background:var(--amarelo);color:var(--tinta);font-family:var(--f-titulo);
+  font-size:40px;letter-spacing:2px;padding:8px 22px;transform:rotate(-2deg)}
+.giz{font-family:var(--f-giz)}
+.big{font-family:var(--f-titulo);line-height:.92;text-transform:uppercase;letter-spacing:1px}
+
+/* 1 — ficha técnica */
+.p1{padding:70px}
+.p1 h1{font-size:150px;margin:28px 0 10px;color:var(--cal);text-shadow:6px 6px 0 var(--tinta)}
+.p1 .sub{font-size:38px;font-weight:700;margin-bottom:40px}
+.ficha{display:grid;grid-template-columns:330px 1fr;gap:18px 24px;font-size:38px;border-top:4px dashed rgba(246,240,228,.6);padding-top:34px}
+.ficha dt{font-weight:900;text-transform:uppercase;font-size:30px;letter-spacing:2px;color:var(--amarelo);padding-top:6px}
+.ficha dd{font-weight:500}
+
+/* 2 — carta do jogador */
+.p2{display:flex;align-items:center;justify-content:center;gap:60px}
+.carta{width:520px;height:820px;background:linear-gradient(160deg,#8a8f96,#d9dde2 45%,#7b8087);
+  clip-path:polygon(50% 0,100% 8%,100% 88%,50% 100%,0 88%,0 8%);padding:60px 56px;position:relative;color:var(--tinta)}
+.carta .ovr{font-family:var(--f-titulo);font-size:120px;line-height:1}
+.carta .pos{font-family:var(--f-titulo);font-size:44px}
+.carta .rosto{position:absolute;right:60px;top:90px;width:220px;height:220px;border-radius:50%;background:#c9cdd2;
+  display:flex;align-items:center;justify-content:center;font-size:150px}
+.carta .nome{font-family:var(--f-titulo);font-size:70px;text-align:center;margin:120px 0 14px;border-bottom:3px solid var(--tinta)}
+.attrs{display:grid;grid-template-columns:1fr 1fr;gap:10px 30px;font-size:34px;font-weight:900}
+.attrs span{font-family:var(--f-titulo);font-size:40px;margin-right:10px}
+.attrs .top{color:var(--vermelho)}
+.p2 .lado{width:360px;color:var(--cal)}
+.p2 .lado .big{font-size:96px;text-shadow:5px 5px 0 var(--tinta)}
+.p2 .lado p{font-size:34px;font-weight:700;margin-top:24px}
+
+/* 3 — escalação */
+.p3 .campo{position:absolute;inset:150px 70px 90px;border:6px solid rgba(255,255,255,.85)}
+.p3 .campo::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:6px solid rgba(255,255,255,.85)}
+.p3 .campo::after{content:"";position:absolute;left:50%;top:50%;width:200px;height:200px;margin:-100px;border:6px solid rgba(255,255,255,.85);border-radius:50%}
+.p3 h1{position:absolute;top:40px;left:0;right:0;text-align:center;font-size:92px;color:var(--cal);text-shadow:5px 5px 0 var(--tinta)}
+.jog{position:absolute;transform:translate(-50%,-50%);text-align:center;width:230px;z-index:2}
+.jog i{display:block;margin:0 auto 6px;width:60px;height:60px;border-radius:50%;background:var(--amarelo);border:5px solid var(--tinta);
+  font-style:normal;font-family:var(--f-titulo);font-size:30px;line-height:50px}
+.jog b{display:block;background:var(--tinta);color:var(--cal);font-size:26px;padding:4px 8px;font-weight:900}
+.jog small{display:block;color:var(--cal);font-size:21px;font-weight:700;text-shadow:2px 2px 0 var(--tinta);margin-top:4px}
+.p3 .tec{position:absolute;left:70px;bottom:28px;color:var(--cal);font-size:26px;font-weight:900}
+
+/* 4 — placar */
+.p4{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;text-align:center;padding:60px}
+.placar{display:flex;align-items:stretch;background:var(--tinta);color:var(--cal);border:8px solid var(--tinta)}
+.placar .time{width:340px;padding:30px 20px;font-family:var(--f-titulo);font-size:52px;line-height:1.05;display:flex;align-items:center;justify-content:center;background:#2b2824}
+.placar .gols{font-family:var(--f-titulo);font-size:200px;padding:0 34px;background:var(--amarelo);color:var(--tinta);line-height:1.15}
+.placar .x{font-family:var(--f-titulo);font-size:70px;align-self:center;padding:0 16px}
+.p4 .fim{font-family:var(--f-titulo);font-size:60px;letter-spacing:6px;color:var(--cal)}
+.p4 .culpa{font-family:var(--f-giz);font-size:60px;color:var(--cal);transform:rotate(-2deg)}
+.p4 .culpa u{text-decoration:none;background:var(--vermelho);padding:0 14px}
+.p4 .obs{font-size:32px;font-weight:700;color:var(--cal);max-width:820px}
+
+/* 5 — desculpas */
+.p5{padding:80px}
+.p5 h1{font-size:118px;color:var(--vermelho)}
+.p5 h2{font-family:var(--f-giz);font-size:48px;margin:6px 0 40px}
+.p5 ol{list-style:none;counter-reset:d;display:grid;gap:20px}
+.p5 li{counter-increment:d;font-size:44px;font-weight:700;display:flex;gap:24px;align-items:baseline;border-bottom:3px dotted #c9bfae;padding-bottom:14px}
+.p5 li::before{content:"☐";font-size:46px}
+.p5 li.x::before{content:"☒";color:var(--vermelho)}
+.p5 .selo{color:var(--tinta)}
+
+/* 6 — contratação */
+.p6{display:flex;flex-direction:column;justify-content:center;padding:80px}
+.p6 .oficial{font-family:var(--f-titulo);font-size:58px;letter-spacing:10px;color:var(--amarelo)}
+.p6 h1{font-size:200px;color:var(--cal);text-shadow:8px 8px 0 var(--tinta);margin:10px 0}
+.p6 .chega{font-size:52px;font-weight:900;color:var(--cal)}
+.p6 .chega s{color:#f0b9a3}
+.p6 .chega em{font-style:normal;background:var(--tinta);color:var(--amarelo);padding:0 14px}
+.p6 .clausula{margin-top:56px;font-size:34px;font-weight:700;color:var(--cal);border-left:10px solid var(--amarelo);padding-left:24px}
+
+/* 7 — ninguém / o ramela */
+.p7{display:flex;flex-direction:column;justify-content:center;padding:90px;gap:50px}
+.p7 .lin{font-size:64px;font-weight:900}
+.p7 .lin span{color:#8a8175;font-weight:700}
+.p7 .grito{font-family:var(--f-titulo);font-size:150px;line-height:.95;color:var(--vermelho);text-transform:uppercase}
+.p7 .rod{font-family:var(--f-giz);font-size:46px}
+.p7 .selo{color:var(--tinta)}
+
+/* 8 — estatísticas */
+.p8{padding:70px}
+.p8 .selo{bottom:24px}
+.p8 h1{font-size:110px;color:var(--cal);text-shadow:5px 5px 0 var(--tinta)}
+.p8 .data{font-family:var(--f-giz);font-size:40px;margin-bottom:36px}
+.st{display:grid;margin-bottom:40px;grid-template-columns:1fr 160px;align-items:center;gap:14px 30px;font-size:40px;font-weight:700}
+.st .n{font-family:var(--f-titulo);font-size:76px;text-align:right;color:var(--amarelo);font-variant-numeric:tabular-nums}
+.st .bar{grid-column:1/-1;height:8px;background:rgba(246,240,228,.25);margin-top:-6px}
+.st .bar b{display:block;height:100%;background:var(--cal)}
+</style>
+</head>
+<body>
+
+<!-- 1 -->
+<section class="post terrao p1" id="p1">
+  <span class="tag">TIPOS DE JOGADOR DA VÁRZEA #1</span>
+  <h1 class="big">O Ramela</h1>
+  <p class="sub">Todo racha tem um. Se você não sabe quem é... é você.</p>
+  <dl class="ficha">
+    <dt>Posição</dt><dd>Onde a bola não está</dd>
+    <dt>Ponto forte</dt><dd>Furar com convicção</dd>
+    <dt>Passe</dt><dd>Direto pro lateral... do adversário</dd>
+    <dt>Gols no ano</dt><dd>0 (1 contra, de cabeça)</dd>
+    <dt>Frase típica</dt><dd>"Juiz, foi falta!"</dd>
+  </dl>
+  <span class="selo">#várzearaiz</span>
+</section>
+
+<!-- 2 -->
+<section class="post terrao p2" id="p2">
+  <div class="carta">
+    <div class="ovr">41</div>
+    <div class="pos">ZAG?</div>
+    <div class="rosto">😬</div>
+    <div class="nome">ZÉ CANELA</div>
+    <div class="attrs">
+      <div><span>32</span>VEL</div>
+      <div><span>12</span>CHU</div>
+      <div><span>18</span>PAS</div>
+      <div><span>09</span>DRI</div>
+      <div><span>25</span>FÔL</div>
+      <div class="top"><span>99</span>RECL</div>
+    </div>
+  </div>
+  <div class="lado">
+    <div class="big">Carta liberada</div>
+    <p>Único atributo no máximo: reclamar.</p>
+    <p class="giz" style="font-weight:400;font-size:38px">Marca aquele amigo que é 99 de RECL 👇</p>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="post grama p3" id="p3">
+  <h1 class="big">Seleção da Ramela</h1>
+  <div class="campo"></div>
+  <div class="jog" style="left:50%;top:83%"><i>1</i><b>MÃO DE ALFACE</b><small>levou 3 no meio das pernas</small></div>
+  <div class="jog" style="left:16%;top:65%"><i>2</i><b>TIÃO SEM FÔLEGO</b><small>sobe, não volta</small></div>
+  <div class="jog" style="left:38%;top:67%"><i>3</i><b>ZÉ CANELA</b><small>acerta tudo, menos a bola</small></div>
+  <div class="jog" style="left:62%;top:67%"><i>4</i><b>PAREDÃO</b><small>de papelão</small></div>
+  <div class="jog" style="left:84%;top:65%"><i>6</i><b>CARRINHO</b><small>em tudo, até no gandula</small></div>
+  <div class="jog" style="left:30%;top:52%"><i>5</i><b>VOLANTE DE FUSCA</b><small>não vira</small></div>
+  <div class="jog" style="left:70%;top:52%"><i>8</i><b>PÉ DE PATO</b><small>passe de 2m pra fora</small></div>
+  <div class="jog" style="left:20%;top:32%"><i>7</i><b>FOMINHA</b><small>não toca nem a mãe</small></div>
+  <div class="jog" style="left:50%;top:36%"><i>10</i><b>FURÃO</b><small>craque em errar chute</small></div>
+  <div class="jog" style="left:80%;top:32%"><i>11</i><b>CAI-CAI</b><small>pede pênalti no aquecimento</small></div>
+  <div class="jog" style="left:50%;top:21%"><i>9</i><b>ISOLADOR</b><small>bola no telhado do vizinho</small></div>
+  <div class="tec">TÉC: o cara da cerveja 🍺</div>
+</section>
+
+<!-- 4 -->
+<section class="post terrao p4" id="p4">
+  <div class="fim">FIM DE JOGO</div>
+  <div class="placar">
+    <div class="time">UNIDOS DA RAMELA</div>
+    <div class="gols">0</div><div class="x">×</div><div class="gols">7</div>
+    <div class="time">REAL CANELADA</div>
+  </div>
+  <div class="culpa">Culpado oficial: <u>o gramado</u></div>
+  <p class="obs">Não tem grama. É terra. Mesmo assim a culpa é dele.</p>
+  <span class="selo">#futebolamador</span>
+</section>
+
+<!-- 5 -->
+<section class="post muro p5" id="p5">
+  <h1 class="big">Desculpas do Ramela</h1>
+  <h2>Kit completo pós-derrota. Marque as que você já usou:</h2>
+  <ol>
+    <li class="x">"A chuteira tava apertada"</li>
+    <li class="x">"O sol bateu no meu olho"</li>
+    <li>"A bola tava murcha"</li>
+    <li class="x">"Comi feijoada antes do jogo"</li>
+    <li>"Ninguém me passa a bola"</li>
+    <li class="x">"Tô voltando de lesão" (desde 2019)</li>
+  </ol>
+  <span class="selo">#racha</span>
+</section>
+
+<!-- 6 -->
+<section class="post terrao p6" id="p6">
+  <div class="oficial">É OFICIAL ✍️</div>
+  <h1 class="big">Bem-vindo, Furão!</h1>
+  <p class="chega">Chega para reforçar <s>o nosso time</s> <em>o time adversário</em></p>
+  <p class="clausula">Contrato até o fim do racha. Multa rescisória: 1 engradado e o churrasco de sábado.</p>
+  <span class="selo">#reforçodepeso</span>
+</section>
+
+<!-- 7 -->
+<section class="post muro p7" id="p7">
+  <p class="lin"><span>Ninguém:</span></p>
+  <p class="lin"><span>Absolutamente ninguém:</span></p>
+  <p class="lin">O ramela marcado por 3:</p>
+  <p class="grito">"Toca<br>que eu tô<br>livre!"</p>
+  <p class="rod">(não estava livre. nunca está.)</p>
+  <span class="selo">#várzearaiz</span>
+</section>
+
+<!-- 8 -->
+<section class="post terrao p8" id="p8">
+  <h1 class="big">Números do racha</h1>
+  <p class="data">Domingo, 9h, campo do Seu Zé</p>
+  <div class="st">
+    <span>Passes certos</span><span class="n">3</span><div class="bar"><b style="width:4%"></b></div>
+    <span>Canelas acertadas</span><span class="n">14</span><div class="bar"><b style="width:22%"></b></div>
+    <span>Bolas no quintal do vizinho</span><span class="n">6</span><div class="bar"><b style="width:10%"></b></div>
+    <span>Pedidos de "dá um tempo aí"</span><span class="n">21</span><div class="bar"><b style="width:34%"></b></div>
+    <span>Cervejas no pós-jogo</span><span class="n">48</span><div class="bar"><b style="width:100%"></b></div>
+  </div>
+  <span class="selo">#futebolamador</span>
+</section>
+
+</body>
+</html>
